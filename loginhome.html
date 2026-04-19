@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Online Movie Ticket Booking System</title>
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    background: #101820;
+    color: #fff;
+  }
+
+  header {
+    background: #ffcc00;
+    color: #101820;
+    padding: 15px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+  }
+
+  .section {
+    padding: 20px;
+    text-align: center;
+  }
+
+  .movies {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 per row */
+  gap: 20px;
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+  .movie-card {
+    background: #1a1a1a;
+    border-radius: 10px;
+    padding: 15px;
+    transition: 0.3s;
+  }
+
+  .movie-card:hover {
+    transform: scale(1.05);
+    background: #222;
+  }
+
+  .movie-card img {
+    width: 100%;
+    border-radius: 10px;
+  }
+
+  .movie-card button {
+    margin-top: 10px;
+    padding: 8px 15px;
+    border: none;
+    background: #ffcc00;
+    color: #101820;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  .booking, .payment, .confirmation, .login {
+    display: none;
+    padding: 20px;
+    text-align: center;
+  }
+
+  select, input {
+    padding: 8px;
+    margin: 8px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+  }
+
+  .screen {
+    background: #fff;
+    height: 40px;
+    width: 80%;
+    margin: 15px auto;
+    border-radius: 5px;
+    box-shadow: 0 3px 10px rgba(255,255,255,0.7);
+  }
+
+  .row {
+    display: flex;
+    justify-content: center;
+  }
+
+  .seat {
+    background: #444;
+    height: 25px;
+    width: 25px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .seat.selected {
+    background: #6feaf6;
+  }
+
+  .seat.occupied {
+    background: #fff;
+    cursor: not-allowed;
+  }
+
+  .btn {
+    background: #ffcc00;
+    color: #101820;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 15px;
+  }
+
+  .btn:hover {
+    background: #ffe066;
+  }
+
+  footer {
+    text-align: center;
+    padding: 10px;
+    background: #1a1a1a;
+    color: #aaa;
+    font-size: 13px;
+  }
+
+  .login-box {
+    background: #1a1a1a;
+    width: 300px;
+    margin: 40px auto;
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  .login-box input {
+    width: 90%;
+  }
+
+</style>
+</head>
+<body>
+
+<header>🎬 Online Movie Ticket Booking System</header>
+
+<!-- HOME PAGE -->
+<section class="section home" id="home">
+  <h2>Now Showing</h2>
+  <div class="movies">
+    <div class="movie-card">
+      <img src="https://upload.wikimedia.org/wikipedia/en/0/0d/Avengers_Endgame_poster.jpg" alt="Avengers">
+      <h3>Avengers: Endgame</h3>
+      <button onclick="bookMovie('Avengers: Endgame')">Book Now</button>
+    </div>
+    <div class="movie-card">
+      <img src="https://upload.wikimedia.org/wikipedia/en/e/e1/Joker_%282019_film%29_poster.jpg" alt="Joker">
+      <h3>Joker</h3>
+      <button onclick="bookMovie('Joker')">Book Now</button>
+    </div>
+    <div class="movie-card">
+      <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcT19qZK8uGfJjTjpxrL02Ol5l8dAQjn5nfsHUsyx4C37LDUHtqF" alt="Toy Story">
+      <h3>Toy Story 4</h3>
+      <button onclick="bookMovie('Toy Story 4')">Book Now</button>
+    </div>
+    <div class="movie-card">
+      <img src="https://m.media-amazon.com/images/S/pv-target-images/d518255c7d365366741e84c41606664dd8bdbec25bf558f9be8ffe22a8a678cc._UR2000,3000_.jpg" alt="Insidious">
+      <h3>Insidious: The Red Door</h3>
+      <button onclick="bookMovie('Insidious')">Book Now</button>
+    </div>
+    <div class="movie-card">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtCMCrhSQdTfZRc5q6inkO6E6BD1oCBzx_ng&s" alt="Avatar">
+      <h3>Avatar: Fire & Ash</h3>
+      <button onclick="bookMovie('Avatar')">Book Now</button>
+    </div>
+    <div class="movie-card">
+      <img src="https://lh5.googleusercontent.com/proxy/a3gv3hk2Qv1u74leTwjOdbyv4MudbbfGlx21FH4VpoSCgN3Y8GZ9P8To1tQXDmDScqqh2R9PMMC_qwgKCFuU_GUFG8HcD4xohFEz4_4tHOa6EA" alt="Dhurandhar">
+      <h3>Dhurandhar</h3>
+      <button onclick="bookMovie('Dhurandhar')">Book Now</button>
+    </div>
+  </div>
+</section>
+
+<!-- LOGIN PAGE -->
+<section class="login" id="login">
+  <h2>Login / Sign Up</h2>
+  <div class="login-box">
+    <input type="text" id="username" placeholder="Enter your Name" required><br>
+    <input type="email" id="useremail" placeholder="Enter your Email" required><br>
+    <input type="password" id="userpass" placeholder="Enter Password" required><br>
+    <input type="text" id="userphone" placeholder="Enter Phone Number" required><br>
+    <button class="btn" onclick="loginUser()">Continue to Booking</button>
+  </div>
+</section>
+
+<!-- BOOKING PAGE -->
+<section class="booking" id="booking">
+  <h2 id="movieTitle"></h2>
+  <label for="showdate">Select Show Date:</label>
+  <input type="date" id="showdate"><br>
+  
+  <label for="showtime">Select Show Time:</label>
+  <select id="showtime">
+    <option>10:00 AM</option>
+    <option>1:00 PM</option>
+    <option>4:00 PM</option>
+    <option>7:00 PM</option>
+  </select>
+
+  <div class="screen"></div>
+
+  <div class="row">
+    <div class="seat"></div><div class="seat"></div><div class="seat occupied"></div><div class="seat"></div><div class="seat"></div>
+  </div>
+  <div class="row">
+    <div class="seat"></div><div class="seat"></div><div class="seat"></div><div class="seat occupied"></div><div class="seat"></div>
+  </div>
+
+  <p>You have selected <span id="count">0</span> seats for ₹<span id="total">0</span></p>
+  <button class="btn" onclick="proceedToPayment()">Proceed to Payment</button>
+</section>
+
+<!-- PAYMENT PAGE -->
+<section class="payment" id="payment">
+  <h2>Payment Details</h2>
+  <input type="text" id="name" placeholder="Name on Card"><br>
+  <input type="text" id="cardNumber" placeholder="Card Number"><br>
+  Expiry Date:<input type="date" id="expiry" placeholder="Expiry Date (MM/YY)"><br>
+  <input type="text" id="cvv" placeholder="CVV"><br>
+  <button class="btn" onclick="confirmBooking()">Pay ₹<span id="payAmount">0</span></button>
+</section>
+
+<!-- CONFIRMATION PAGE -->
+<section class="confirmation" id="confirmation">
+  <h2>✅ Booking Confirmed!</h2>
+  <p>Thank you for booking with us.</p>
+  <p>Your tickets will be sent to your registered email.</p>
+  <button class="btn" onclick="goHome()">Back to Home</button>
+</section>
+
+<footer>© 2025 MovieTicket.com | All Rights Reserved</footer>
+
+<script>
+  const home = document.getElementById('home');
+  const login = document.getElementById('login');
+  const booking = document.getElementById('booking');
+  const payment = document.getElementById('payment');
+  const confirmation = document.getElementById('confirmation');
+  const count = document.getElementById('count');
+  const total = document.getElementById('total');
+  const payAmount = document.getElementById('payAmount');
+  const seats = document.querySelectorAll('.seat:not(.occupied)');
+  let selectedMovie = '';
+  let ticketPrice = 150;
+  let selectedSeats = 0;
+
+  // Seat selection logic
+  seats.forEach(seat => {
+    seat.addEventListener('click', () => {
+      if (!seat.classList.contains('occupied')) {
+        seat.classList.toggle('selected');
+        updateSelectedCount();
+      }
+    });
+  });
+
+  function updateSelectedCount() {
+    const selectedSeatsList = document.querySelectorAll('.seat.selected');
+    selectedSeats = selectedSeatsList.length;
+    count.textContent = selectedSeats;
+    total.textContent = selectedSeats * ticketPrice;
+    payAmount.textContent = selectedSeats * ticketPrice;
+  }
+
+  // Show login page after selecting movie
+  function bookMovie(movie) {
+    selectedMovie = movie;
+    home.style.display = 'none';
+    login.style.display = 'block';
+    saveMovieBooking(selectedMovie);
+
+  }
+
+  //To fetch the movie title
+  async function saveMovieBooking(selectedMovie) {
+  const response = await fetch("/add_movie", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      title: selectedMovie
+    })
+  });
+  const data = await response.json();
+  console.log("Movie added:", data);
+
+  if (response.ok) {
+    //Add a random theater immediately after movie addition
+    await addRandomTheater();
+  } else {
+    console.error("❌ Movie not added:", data.error);
+  }
+}
+
+//To fetch showdate and showtime
+async function saveShowDetails() {
+  const showDate = document.getElementById('showdate').value;
+  const showTime = document.getElementById('showtime').value;
+  console.log("🎬 Selected movie title:", selectedMovie);
+
+  const response = await fetch('http://127.0.0.1:5000/add_show', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      show_date: showDate,
+      show_time: showTime
+    })
+  });
+
+  const data = await response.json();
+  console.log("Show saved:", data);
+}
+
+async function addRandomTheater() {
+    
+        const response = await fetch("http://127.0.0.1:5000/add_theater", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        const data = await response.json();
+
+}
+
+
+  // User registration → save in database
+  async function loginUser() {
+    const name = document.getElementById('username').value.trim();
+    const email = document.getElementById('useremail').value.trim();
+    const pass = document.getElementById('userpass').value.trim();
+    const phone = document.getElementById('userphone').value.trim();
+
+    if (!name || !email || !pass || !phone) {
+      alert("Please fill in all fields!");
+      return;
+    }
+
+    const gmailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+    if (!gmailPattern.test(email)) {
+      alert("Please enter a valid Gmail address!");
+      return;
+    }
+
+    try {
+      const response = await fetch('/register_user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          password: pass,
+          phone: phone
+        })
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert(result.message || "User registered successfully!");
+        login.style.display = 'none';
+        booking.style.display = 'block';
+        document.getElementById('movieTitle').innerText = `Booking for ${selectedMovie}`;
+      } else {
+        alert(result.error || "Error registering user.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Could not connect to the server.");
+    }
+  }
+
+  // Proceed to payment
+  async function proceedToPayment() {
+    if (selectedSeats === 0) {
+      alert("Please select at least one seat.");
+      return;
+    }
+    await saveShowDetails();
+    booking.style.display = 'none';
+    payment.style.display = 'block';
+  }
+  
+
+async function confirmBooking() {
+  console.log("💳 Pay button clicked!");
+
+  const cardnumber = document.getElementById('cardNumber').value.trim();
+  const expirydate = document.getElementById('expiry').value.trim();
+  const cvv = document.getElementById('cvv').value.trim();
+  const cardname = document.getElementById('name').value.trim();
+
+  if (!cardname || !cardnumber || !expirydate || !cvv) {
+    alert("Please fill in all payment fields!");
+    return;
+  }
+
+  // Optional: simple validation
+  const cardPattern = /^[0-9]{16}$/;
+  if (!cardPattern.test(cardnumber)) {
+    alert("Please enter a valid 16-digit card number!");
+    return;
+  }
+
+  try {
+    const response = await fetch("http://127.0.0.1:5000/add_payment", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        booking_id: 1,  // placeholder until dynamic booking_id is handled
+        cardname,
+        cardnumber,
+        expirydate,
+        cvv
+      })
+    });
+
+    const data = await response.json();
+    console.log("Server Response:", data);
+
+    if (response.ok) {
+      alert("✅ Payment Successful!");
+      payment.style.display = 'none';
+      confirmation.style.display = 'block';
+    } else {
+      alert("❌ Payment Failed: " + (data.error || "Unknown error"));
+    }
+
+  } catch (error) {
+    console.error("Error during payment:", error);
+    alert("⚠️ Could not connect to the server.");
+  }
+}
+
+
+  // Back to home
+  function goHome() {
+    confirmation.style.display = 'none';
+    home.style.display = 'block';
+    document.querySelectorAll('.seat.selected').forEach(seat => seat.classList.remove('selected'));
+    updateSelectedCount();
+  }
+</script>
+
+
+</body>
+</html>
